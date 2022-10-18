@@ -4,11 +4,12 @@
     //     header('location:add_employee.php?id='.$_SESSION['USER_ID']);
     //     die();
     // }
-    $name='';
+    $username='';
     $email='';
     $mobile='';
     $address='';
     $birthday='';
+    $user_type='';
     // $password='';
     $id='';
     
@@ -19,31 +20,35 @@
         }
         $res=mysqli_query($con,"select * from employee where id='$id'");
         $row=mysqli_fetch_assoc($res);
-        $name = $row['name'];
+        $username = $row['username'];
         $email = $row['email'];
         $password = $row['password'];
         $mobile = $row['mobile'];
         $address = $row['address'];
         $birthday = $row['birthday'];
+        $user_type = $row['user_type'];
     }
     if(isset($_POST['submit'])){
-        $name = mysqli_real_escape_string($con,$_POST['name']);
+        $username = mysqli_real_escape_string($con,$_POST['username']);
         $email = mysqli_real_escape_string($con,$_POST['email']);
         $password = mysqli_real_escape_string($con,$_POST['password']);
         $mobile = mysqli_real_escape_string($con,$_POST['mobile']);
         $address = mysqli_real_escape_string($con,$_POST['address']);
         $birthday = mysqli_real_escape_string($con,$_POST['birthday']);
+        $user_type = mysqli_real_escape_string($con,$_POST['user_type']);
+        
         if($id>0){
-            $sql="update employee set name='$name' , email='$email' ,password='$password',
-            mobile='$mobile',address='$address',birthday='$birthday' where id='$id'";
-        }else{
-            $sql="insert into employee(name,email,password,mobile,address,birthday,role) 
-            values('$name','$email','$password','$mobile','$address','$birthday','2')";
+            $sql="update employee set username='$username' , email='$email' ,password='$password',
+            mobile='$mobile',address='$address',birthday='$birthday' where id='$id';
+            update role_type set username='$username', email='$email',password='$password',user_type=$user_type";
 
-            $sql="insert into role_type(email,password,user_type,username) 
-            values('$name','$email','$password','$mobile','$address','$birthday','2')";
+        }else{
+            $sql="insert into employee(username,email,password,mobile,address,birthday,role) 
+            values('$username','$email','$password','$mobile','$address','$birthday','2');
+            insert into role_type(username,email,password,user_type) 
+            values('$username','$email','$password','$user_type')";
         }
-        mysqli_query($con,$sql);
+        mysqli_multi_query($con,$sql);
         header('location:employee.php');
         die();
     } 
@@ -53,12 +58,12 @@
                <div class="row">
                   <div class="col-lg-12">
                      <div class="card">
-                        <div class="card-header"><strong>Leave Type</strong><small> Form</small></div>
+                        <div class="card-header"><strong>Add Employee</strong><small> Form</small></div>
                         <div class="card-body card-block">
                            <form method="post">
 							   <div class="form-group">
                                     <label class=" form-control-label">Name</label>
-                                    <input type="text" value="<?php echo $name?>" name="name" placeholder="Enter employee name" class="form-control" required>
+                                    <input type="text" value="<?php echo $username?>" name="username" placeholder="Enter employee name" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label class=" form-control-label">Email</label>
@@ -72,6 +77,23 @@
                                     <label class=" form-control-label">Password</label>
                                     <input type="password"  name="password" placeholder="Enter employee password" class="form-control" required>
                                 </div>
+                                <!-- <div class="form-group">
+                                    <label class=" form-control-label">User Type</label>
+                                    <input type="user_type"  name="user_type" placeholder="Enter user type" class="form-control" required>
+                                </div> -->
+                                <!-- <?php if($_SESSION['ROLE']=="admin"){ ?> -->
+                                          <select class="form-control" name="user_type" >
+                                          <option value="">Choose type</option>
+                                          <option value="admin">admin</option>
+                                          <option value="subadmin">subadmin</option>
+                                          <option value="employee">employee</option>
+                                          </select>
+                                          <!-- <?php } ?> -->
+                                          <!-- <script>
+                                             function update_leave_status(id,select_value){
+                                                window.location.href=id+'&type=update&status='+select_value;
+                                             }
+                                          </script> -->
                                 <div class="form-group">
                                     <label class=" form-control-label">Address</label>
                                     <input type="text" value="<?php echo $address?>" name="address" placeholder="Enter employee address" class="form-control" required>

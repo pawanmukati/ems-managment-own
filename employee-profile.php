@@ -1,10 +1,19 @@
 <?php
 require('top.inc.php');
 
+$id = $_SESSION['USER_ID'];
+// $id = $_GET["id"];
+// $res = mysqli_query ($con, "SELECT id FROM employee WHERE id='$id'");
+// $result = mysqli_fetch_assoc($res);
+$res = mysqli_query($con, "SELECT * FROM employee");
 
-$res = mysqli_query($con, "select * from employee");
+// echo($res);
 
-// var_dump($res)
+if(isset($_GET['type']) && $_GET['type']=='delete' && isset($_GET['id'])){
+	$id=mysqli_real_escape_string($con,$_GET['id']);
+	mysqli_query($con,"delete from `leave` where id='$id'");
+}
+
 ?>
 
 <div class="main">
@@ -15,7 +24,8 @@ $res = mysqli_query($con, "select * from employee");
             <table>
                 <tbody>
                     <?php
-while ($row = mysqli_fetch_assoc($res)) { ?>
+while ($row = mysqli_fetch_assoc($res)) {
+     ?>
 
                     <tr>
                         <td>Name</td>

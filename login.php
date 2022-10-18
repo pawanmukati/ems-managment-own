@@ -1,6 +1,7 @@
 <?php
 
     require('db.inc.php');
+  
     $msg="";
 
     if(isset($_POST['email']) && isset($_POST['password'])){
@@ -19,9 +20,14 @@
 
                   switch ($_SESSION['ROLE']) {
                      case "admin":
-                         header('location:employee.php');
+                        ?>
+                        <script>
+                           location.replace("employee.php");
+                           alert("Login Successfull");
+                           </script>
+                        <?php
+                        //  header('location:employee.php');
                         // echo"admin login ";
-                       
                      break;
                      case "subadmin":
                         header('location:employee.php');
@@ -36,7 +42,7 @@
                }else{
                   $msg="Login details not exist";
                }
-
+            }
                
                // $adminCount=mysqli_num_rows($adminRes);
 
@@ -68,7 +74,7 @@
             //       $msg="Please enter correct login details";
             //    }
          
-         }
+         
 
 ?>
 

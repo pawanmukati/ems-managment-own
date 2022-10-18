@@ -17,11 +17,18 @@ if(isset($_GET['type']) && $_GET['type']=='update' && isset($_GET['id'])){
 	mysqli_query($con,"update `leave` set leave_status='$status' where id='$id'");
 }
 
-if( $_SESSION['ROLE']== "admin"){
-   $sql="SELECT * FROM `leave` INNER JOIN employee on leave.leave_id = employee.name;";
+if( $_SESSION['ROLE']== "admin" && isset($_GET['id'])){
+   $id=mysqli_real_escape_string($con,$_GET['id']);
+   $sql="SELECT * FROM `leave` where id=$id";
+   $sql_emp="SELECT name FROM employee where id='$id'";
+   var_dump($sql_emp);
 }else{
+   // $id=$_SESSION['USER_ID'];
+   // $sql="SELECT * FROM `leave` where id= '$id'";
+   // $sql_emp="SELECT name FROM employee where id='$id'";
 
 }
+// var_dump($sql);
 $res=mysqli_query($con,$sql);
 
 
@@ -64,7 +71,7 @@ var_dump($res);
                                     <tr>
                                                 <td><?php echo $i?></td>
                                        <td><?php echo $row['id']?></td>
-                                       <td><?php echo $row['name']?></td>
+                                       <td><?php echo $row['username']?></td>
                                        <td><?php echo $row['leave_from']?></td>
                                        <td><?php echo $row['leave_to']?></td>
                                        <td><?php echo $row['leave_description']?></td>
