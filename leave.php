@@ -17,22 +17,18 @@ if(isset($_GET['type']) && $_GET['type']=='update' && isset($_GET['id'])){
 	mysqli_query($con,"update `leave` set leave_status='$status' where id='$id'");
 }
 
-if( $_SESSION['ROLE']== "admin" && isset($_GET['id'])){
-   $id=mysqli_real_escape_string($con,$_GET['id']);
-   $sql="SELECT * FROM `leave` where id=$id";
-   $sql_emp="SELECT name FROM employee where id='$id'";
-   var_dump($sql_emp);
+if($_SESSION['ROLE']=="admin"){ 
+	$sql="select `leave`.*, role_type.username,role_type.id as eid from `leave`,role_type 
+   where `leave`.employee_id=role_type.id order by `leave`.id desc";
 }else{
-   // $id=$_SESSION['USER_ID'];
-   // $sql="SELECT * FROM `leave` where id= '$id'";
-   // $sql_emp="SELECT name FROM employee where id='$id'";
-
+	$eid=$_SESSION['USER_ID'];
+	$sql="select `leave`.*, role_type.username ,role_type.id as eid from `leave`,role_type 
+   where `leave`.employee_id='$eid' and `leave`.employee_id=role_type.id order by `leave`.id desc";
 }
-// var_dump($sql);
+
 $res=mysqli_query($con,$sql);
 
 
-var_dump($res);
 ?>
 <div class="content pb-0">
             <div class="orders">
@@ -62,8 +58,7 @@ var_dump($res);
                                  </thead>
                                  <tbody>
                                     <?php 
-                                    $row=mysqli_fetch_assoc($res);
-                                    var_dump($row) ;
+                                
 
                                     $i=1;
                                     while($row=mysqli_fetch_assoc($res)){
@@ -86,7 +81,8 @@ var_dump($res);
                                           }
                                           ?>
                                           <?php if($_SESSION['ROLE']=="admin"){ ?>
-                                          <select class="form-control" onchange="update_leave_status('<?php echo $row['id']?>',this.options[this.selectedIndex].value)">
+                                          <select class="form-control"
+                                           onchange="update_leave_status('<?php echo $row['id']?>',this.options[this.selectedIndex].value)">
                                           <option value="">Update Status</option>
                                           <option value="2">Approved</option>
                                           <option value="3">Rejected</option>

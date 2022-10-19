@@ -10,7 +10,7 @@
     $address='';
     $birthday='';
     $user_type='';
-    // $password='';
+    $password='';
     $id='';
     
     if(isset($_GET['id'])){
@@ -81,19 +81,19 @@
                                     <label class=" form-control-label">User Type</label>
                                     <input type="user_type"  name="user_type" placeholder="Enter user type" class="form-control" required>
                                 </div> -->
-                                <!-- <?php if($_SESSION['ROLE']=="admin"){ ?> -->
-                                          <select class="form-control" name="user_type" >
+                                <?php if($_SESSION['ROLE']=="admin"){ ?>
+                                          <select class="form-control my-2" name="user_type" >
                                           <option value="">Choose type</option>
                                           <option value="admin">admin</option>
                                           <option value="subadmin">subadmin</option>
                                           <option value="employee">employee</option>
                                           </select>
-                                          <!-- <?php } ?> -->
-                                          <!-- <script>
+                                          <?php } ?>
+                                          <script>
                                              function update_leave_status(id,select_value){
                                                 window.location.href=id+'&type=update&status='+select_value;
                                              }
-                                          </script> -->
+                                          </script>
                                 <div class="form-group">
                                     <label class=" form-control-label">Address</label>
                                     <input type="text" value="<?php echo $address?>" name="address" placeholder="Enter employee address" class="form-control" required>
