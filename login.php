@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="./style.css">
 <?php
 
     require('db.inc.php');
@@ -20,14 +21,13 @@
 
                   switch ($_SESSION['ROLE']) {
                      case "admin":
-                        ?>
-                        <script>
-                           location.replace("employee.php");
-                           alert("Login Successfull");
-                           </script>
-                        <?php
-                        //  header('location:employee.php');
-                        // echo"admin login ";
+                        // ?>
+                        // <script>
+                        //    location.replace("employee.php");
+                        //    alert("Login Successfull");
+                        //    </script>
+                        // <?php
+                         header('location:employee.php');
                      break;
                      case "subadmin":
                         header('location:employee.php');

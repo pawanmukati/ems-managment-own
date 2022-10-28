@@ -1,21 +1,18 @@
 <?php
 require('top.inc.php');
 
-$eid=$_SESSION['USER_ID'];
+$eid=$_SESSION['USER_EMAIL'];
 
-// $sql = "select `employee`.* ,role_type.id as eid from `employee`,role_type 
-// where `employee`.emp_id='$eid' and `employee`.emp_id=role_type.id";
-$sql = "select * from employee JOIN role_type  on employee.emp_id = role_type.id";
-// $sql = "SELECT id,'role_type' as tab from role_type
-// UNION SELECT id, 'employee' as tab from employee";
+$sql="SELECT * FROM employee,role_type WHERE role_type.email=employee.email AND role_type.email='$eid'";
 
-// echo($res);
 $res=mysqli_query($con,$sql);
+// echo $res;
+// var_dump($res) ;
 
-if(isset($_GET['type']) && $_GET['type']=='delete' && isset($_GET['id'])){
-	$id=mysqli_real_escape_string($con,$_GET['id']);
-	mysqli_query($con,"delete from `leave` where id='$id'");
-}
+// if(isset($_GET['type']) && $_GET['type']=='delete' && isset($_GET['id'])){
+// 	$id=mysqli_real_escape_string($con,$_GET['id']);
+// 	mysqli_query($con,"delete from `leave` where id='$id'");
+// }
 
 ?>
 
@@ -26,8 +23,10 @@ if(isset($_GET['type']) && $_GET['type']=='delete' && isset($_GET['id'])){
             <table>
                 <tbody>
                     <?php
+                    // $row = mysqli_fetch_assoc($res);
+                    // var_dump($row) ;
                     while ($row = mysqli_fetch_assoc($res)) {
-                        echo($row) ;
+                   ;
                         ?>
                     <tr>
                         <td>Name</td>

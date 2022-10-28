@@ -38,9 +38,14 @@
         $user_type = mysqli_real_escape_string($con,$_POST['user_type']);
         
         if($id>0){
+            // update data in role table and employee table 
             $sql="update employee set username='$username' , email='$email' ,password='$password',
             mobile='$mobile',address='$address',birthday='$birthday' where id='$id';
-            update role_type set username='$username', email='$email',password='$password',user_type=$user_type";
+            insert into role_type(username,email,password,user_type) 
+
+            values('$username','$email','$password','$user_type');
+        
+            Delete From role_type where id not in (select Max(id) from role_type Group by email)";
 
         }else{
             $sql="insert into employee(username,email,password,mobile,address,birthday,role) 
@@ -48,6 +53,7 @@
             insert into role_type(username,email,password,user_type) 
             values('$username','$email','$password','$user_type')";
         }
+        // end
         mysqli_multi_query($con,$sql);
         header('location:employee.php');
         die();
@@ -117,4 +123,5 @@
                   
 <?php
 // require('footer.inc.php');
+
 ?>

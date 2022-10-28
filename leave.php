@@ -6,20 +6,24 @@ require('top.inc.php');
 // 	die();
 // }
 
-
+// delete leaves status
 if(isset($_GET['type']) && $_GET['type']=='delete' && isset($_GET['id'])){
 	$id=mysqli_real_escape_string($con,$_GET['id']);
 	mysqli_query($con,"delete from `leave` where id='$id'");
 }
+// update leaves status by admin
 if(isset($_GET['type']) && $_GET['type']=='update' && isset($_GET['id'])){
 	$id=mysqli_real_escape_string($con,$_GET['id']);
 	$status=mysqli_real_escape_string($con,$_GET['status']);
 	mysqli_query($con,"update `leave` set leave_status='$status' where id='$id'");
 }
 
-if($_SESSION['ROLE']=="admin"){ 
+// display leave in admin panel
+if($_SESSION['ROLE']=="admin" || $_SESSION['ROLE']=="subadmin"){ 
 	$sql="select `leave`.*, role_type.username,role_type.id as eid from `leave`,role_type 
    where `leave`.employee_id=role_type.id order by `leave`.id desc";
+
+// display leave in employee panel
 }else{
 	$eid=$_SESSION['USER_ID'];
 	$sql="select `leave`.*, role_type.username ,role_type.id as eid from `leave`,role_type 
@@ -80,7 +84,7 @@ $res=mysqli_query($con,$sql);
                                              echo "Rejected";
                                           }
                                           ?>
-                                          <?php if($_SESSION['ROLE']=="admin"){ ?>
+                                          <?php if($_SESSION['ROLE']=="admin" || $_SESSION['ROLE']=="subadmin" ){ ?>
                                           <select class="form-control"
                                            onchange="update_leave_status('<?php echo $row['id']?>',this.options[this.selectedIndex].value)">
                                           <option value="">Update Status</option>

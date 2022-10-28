@@ -20,7 +20,7 @@ if(!isset($_SESSION['ROLE'])){
       <link rel="stylesheet" href="assets/css/pe-icon-7-filled.css">
       <link rel="stylesheet" href="assets/css/flag-icon.min.css">
       <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="./style.css">
       <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
    </head>
    <body>
@@ -56,15 +56,21 @@ if(!isset($_SESSION['ROLE'])){
          <header id="header" class="header">
             <div class="top-left">
                <div class="navbar-header d-flex">
-                  <a class="navbar-brand" href="index.php"><img src="images/Logo.svg" alt="Logo"></a>
-                  <a class="navbar-brand hidden" href="index.php"><img src="images/logo2.png" alt="Logo"></a>
-                  <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                  <a class="navbar-brand" href="employee.php"><img src="images/Logo.svg" alt="Logo"></a>
+                  <!-- <a class="navbar-brand hidden" href="employee.php"><img src="images/logo2.png" alt="Logo"></a> -->
+                  <!-- <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a> -->
                </div>
             </div>
             <div class="top-right">
                <div class="header-menu">
                <div class="user-area dropdown float-right d-flex align-items-center">
-                     <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome <?php echo $_SESSION['USER_NAME']?></a>
+                  
+               <?php if($_SESSION['ROLE']=="admin"){ ?>
+               <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome <?php echo $_SESSION['USER_NAME']?></a>
+               <?php } ?>
+               <?php if($_SESSION['ROLE']=="employee" || $_SESSION['ROLE']=="subadmin" ){ ?>
+                     <a href="employee-profile.php?id=<?php echo $_SESSION['USER_ID']?>" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome <?php echo $_SESSION['USER_NAME']?></a>
+                   <?php } ?>
                      <div class="user-menu dropdown-menu">
                        
                      </div>
